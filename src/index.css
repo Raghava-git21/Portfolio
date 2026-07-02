@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    min-height: 100%;
+    background: #041d4f;
+  }
+  
+  body {
+    min-height: 100%;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: radial-gradient(circle at top left, rgba(59,130,246,0.15), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(168,85,247,0.1), transparent 25%),
+                #041d4f;
+    color: white;
+  }
+}
+
+/* Dynamic Font Classes */
+.font-inter { font-family: 'Inter', sans-serif; }
+.font-outfit { font-family: 'Outfit', sans-serif; }
+.font-bricolage { font-family: 'Bricolage Grotesque', sans-serif; }
+.font-mono-space { font-family: 'Space Mono', monospace; }
+
+/* Custom Animations & Background Utilities */
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+  }
+  33% {
+    transform: scale(1.1) translate(30px, -50px);
+  }
+  66% {
+    transform: scale(0.9) translate(-20px, 20px);
+  }
+}
+
+.animate-pulse-slow-1 {
+  animation: pulse-slow 20s infinite ease-in-out;
+}
+
+.animate-pulse-slow-2 {
+  animation: pulse-slow 25s infinite ease-in-out;
+  animation-delay: 2s;
+}
+
+.animate-pulse-slow-3 {
+  animation: pulse-slow 18s infinite ease-in-out;
+  animation-delay: 5s;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Glassmorphism scrollbar */
+.style-glassmorphism ::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 9999px;
+}
+.style-glassmorphism ::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.4);
+}
+
+/* Brutalist Scrollbar */
+.style-brutalist ::-webkit-scrollbar-thumb {
+  background: currentColor;
+  border: 2px solid var(--scroll-bg, #000);
+}
+
+/* Playful Scrollbar */
+.style-playful ::-webkit-scrollbar-thumb {
+  background: var(--accent-color, #3b82f6);
+  border-radius: 9999px;
+}
+
+/* Minimal Scrollbar */
+.style-minimal ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+.dark.style-minimal ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Glass Background Glows */
+.glass-glow {
+  background: radial-gradient(circle at 50% 50%, var(--accent-light) 0%, transparent 60%);
+  filter: blur(80px);
+}
+
+/* Custom transitions */
+.transition-all-custom {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Brutalist Grid Pattern */
+.brutalist-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+}
+.dark .brutalist-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+}
+
+/* Brutalist Card Active Press */
+.brutalist-card {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.brutalist-card:hover {
+  transform: translate(-4px, -4px);
+}
+.brutalist-card:active {
+  transform: translate(0px, 0px);
+}
+
+/* Dotted Pattern */
+.bg-dots {
+  background-size: 20px 20px;
+  background-image: radial-gradient(circle, rgba(15,23,42,0.08) 1px, transparent 1px);
+}
+.dark .bg-dots {
+  background-image: radial-gradient(circle, rgba(226,232,240,0.08) 1px, transparent 1px);
+}
