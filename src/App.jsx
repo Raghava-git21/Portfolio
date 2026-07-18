@@ -23,10 +23,10 @@ const DEFAULT_PORTFOLIO_DATA = {
       link: 'https://prajna-frontend.onrender.com/'
     },
     {
-      name: 'Tic-Tac-Toe Game',
-      desc: 'A classic Tic-Tac-Toe game built with React, allowing two players to play against each other in a web browser.',
-      tech: 'React, Tailwind CSS, Chart.js',
-      link: 'https://github.com/raghu/dashboard'
+      name: 'Intelligent Defect Detection',
+      desc: 'This project presents an intelligent surface crack detection system for concrete using advanced Machine Learning techniques. It includes a comprehensive pipeline for image preprocessing, data augmentation, and the implementation of Deep Convolutional Neural Networks (DCNNs). The system achieves high accuracy in identifying and classifying crack defects, providing real-time feedback to enhance structural health monitoring and maintenance efficiency.',
+      tech: 'Python, TensorFlow, Keras, Scikit-learn, OpenCV, Flask',
+      link: 'https://github.com/Raghava-git21/Intelligentdefectdetection'
     },
     {
       name: 'Smart Voice Recognition System',
