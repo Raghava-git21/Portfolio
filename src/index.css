@@ -1,135 +1,188 @@
 @import "tailwindcss";
 
 @layer base {
+  :root {
+    --bg-primary: #0b0d13;
+    --bg-surface: #12151e;
+    --bg-surface-elevated: #171b26;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(0, 245, 155, 0.35);
+    --text-primary: #f3f4f6;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent: #00f59b;
+    --accent-hover: #10ffaa;
+    --accent-glow: rgba(0, 245, 155, 0.18);
+  }
+
+  .light {
+    --bg-primary: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-surface-elevated: #f1f5f9;
+    --border-color: rgba(15, 23, 42, 0.08);
+    --border-hover: rgba(16, 185, 129, 0.4);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --accent: #059669;
+    --accent-hover: #047857;
+    --accent-glow: rgba(5, 150, 105, 0.15);
+  }
+
   html {
     scroll-behavior: smooth;
     min-height: 100%;
-    background: #041d4f;
   }
-  
+
   body {
     min-height: 100%;
-    font-family: 'Inter', system-ui, sans-serif;
-    background: radial-gradient(circle at top left, rgba(59,130,246,0.15), transparent 28%),
-                radial-gradient(circle at bottom right, rgba(168,85,247,0.1), transparent 25%),
-                #041d4f;
-    color: white;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* Dynamic Font Classes */
-.font-inter { font-family: 'Inter', sans-serif; }
-.font-outfit { font-family: 'Outfit', sans-serif; }
-.font-bricolage { font-family: 'Bricolage Grotesque', sans-serif; }
-.font-mono-space { font-family: 'Space Mono', monospace; }
-
-/* Custom Animations & Background Utilities */
-@keyframes pulse-slow {
-  0%, 100% {
-    transform: scale(1) translate(0, 0);
-  }
-  33% {
-    transform: scale(1.1) translate(30px, -50px);
-  }
-  66% {
-    transform: scale(0.9) translate(-20px, 20px);
-  }
+/* Typography tokens */
+.font-heading {
+  font-family: 'Space Grotesk', 'Sora', sans-serif;
+  letter-spacing: -0.03em;
 }
 
-.animate-pulse-slow-1 {
-  animation: pulse-slow 20s infinite ease-in-out;
+.font-body {
+  font-family: 'Inter', sans-serif;
 }
 
-.animate-pulse-slow-2 {
-  animation: pulse-slow 25s infinite ease-in-out;
-  animation-delay: 2s;
+.font-mono-code {
+  font-family: 'Space Mono', monospace;
 }
 
-.animate-pulse-slow-3 {
-  animation: pulse-slow 18s infinite ease-in-out;
-  animation-delay: 5s;
+/* Subtle Industrial Background Patterns */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
-/* Custom Scrollbar */
+.light .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+}
+
+.bg-dot-matrix {
+  background-size: 24px 24px;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+}
+
+.light .bg-dot-matrix {
+  background-image: radial-gradient(circle, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+}
+
+/* Studio UI Elements & Micro-interactions */
+.card-studio {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 1.25rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-studio:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 12px 30px -10px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.card-studio-elevated {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: 1.25rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent);
+  color: #0b0d13;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px 0 var(--accent-glow);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px 0 var(--accent-glow);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0, 245, 155, 0.05);
+}
+
+.tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+}
+
+.light .tag-badge {
+  background: rgba(15, 23, 42, 0.04);
+}
+
+.tag-badge:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Subtle Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 
-/* Glassmorphism scrollbar */
-.style-glassmorphism ::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.2);
-  border-radius: 9999px;
-}
-.style-glassmorphism ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.4);
-}
-
-/* Brutalist Scrollbar */
-.style-brutalist ::-webkit-scrollbar-thumb {
-  background: currentColor;
-  border: 2px solid var(--scroll-bg, #000);
-}
-
-/* Playful Scrollbar */
-.style-playful ::-webkit-scrollbar-thumb {
-  background: var(--accent-color, #3b82f6);
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
 }
 
-/* Minimal Scrollbar */
-.style-minimal ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-}
-.dark.style-minimal ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Glass Background Glows */
-.glass-glow {
-  background: radial-gradient(circle at 50% 50%, var(--accent-light) 0%, transparent 60%);
-  filter: blur(80px);
-}
-
-/* Custom transitions */
-.transition-all-custom {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Brutalist Grid Pattern */
-.brutalist-grid {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
-}
-.dark .brutalist-grid {
-  background-image: 
-    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
-}
-
-/* Brutalist Card Active Press */
-.brutalist-card {
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-}
-.brutalist-card:hover {
-  transform: translate(-4px, -4px);
-}
-.brutalist-card:active {
-  transform: translate(0px, 0px);
-}
-
-/* Dotted Pattern */
-.bg-dots {
-  background-size: 20px 20px;
-  background-image: radial-gradient(circle, rgba(15,23,42,0.08) 1px, transparent 1px);
-}
-.dark .bg-dots {
-  background-image: radial-gradient(circle, rgba(226,232,240,0.08) 1px, transparent 1px);
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }

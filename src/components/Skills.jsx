@@ -1,79 +1,91 @@
 import React from 'react';
-import { Terminal, Cpu, Award } from 'lucide-react';
+import { Terminal, Cpu, Layers, Database, Sparkles, Wrench } from 'lucide-react';
 
-export default function Skills({ styleMode, accentColor, portfolioData, accentHex }) {
-
-  const getCategoryIcon = (index) => {
-    const size = 26;
-    switch (index) {
-      case 0: return <Terminal size={size} />;
-      case 1: return <Cpu size={size} />;
-      case 2: return <Award size={size} />;
-      default: return null;
+export default function Skills({ theme, portfolioData, accentHex }) {
+  // Group existing skills and related core proficiencies into clean domain groups
+  const skillGroups = [
+    {
+      title: "Core Languages",
+      icon: <Terminal size={18} className="text-[var(--accent)]" />,
+      description: "Foundational programming & scripting",
+      skills: portfolioData.skills?.languages || ['Python', 'JavaScript', 'HTML5/CSS3']
+    },
+    {
+      title: "Frontend & UI Systems",
+      icon: <Layers size={18} className="text-sky-400" />,
+      description: "Interactive interfaces & design engineering",
+      skills: ['React.js', 'Next.js', 'Tailwind CSS', 'Vite', 'Responsive UI']
+    },
+    {
+      title: "AI, ML & Computer Vision",
+      icon: <Cpu size={18} className="text-emerald-400" />,
+      description: "Intelligent pipelines & algorithmic models",
+      skills: ['PyTorch', 'TensorFlow', 'OpenCV', 'Scikit-learn', 'TF-IDF / NLP', 'CNN / YOLO']
+    },
+    {
+      title: "Backend, Data & Tooling",
+      icon: <Database size={18} className="text-amber-400" />,
+      description: "Data integrity, concurrency & developer workflow",
+      skills: ['Node.js', 'Prisma ORM', 'MySQL', 'Redis Mutex', 'Git & GitHub', 'Gradio']
     }
-  };
-
-  // Assign distinct card wrapper styles for each category to enhance colors
-  const categories = [
-    {
-      title: "Languages",
-      skills: portfolioData.skills.languages || [],
-      cardClass: "bg-white border border-slate-200 rounded-[36px] shadow-sm hover:shadow-md transition-shadow duration-200",
-      badgeClass: "px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200",
-      color: "text-slate-700"
-    },
-    {
-      title: "Frameworks & Tools",
-      skills: portfolioData.skills.frameworks || [],
-      cardClass: "bg-white border border-slate-200 rounded-[36px] shadow-sm hover:shadow-md transition-shadow duration-200",
-      badgeClass: "px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200",
-      color: "text-slate-700"
-    },
   ];
 
   return (
-    <section id="skills" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b-2 border-dashed border-purple-300/30">
-      <div className="max-w-7xl mx-auto">
-
-        {/* Section Heading */}
-        <div className="text-center md:text-left mb-16">
-          <h2 className="text-5xl sm:text-6xl font-black text-purple-300 font-outfit inline-block border-b-2 border-slate-200 pb-2">
-            Technical Stack
-          </h2>
+    <section id="skills" className="relative scroll-mt-24">
+      {/* Section Header */}
+      <div className="mb-14">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="w-4 h-0.5 bg-[var(--accent)]" />
+          <span className="text-xs font-mono-code uppercase tracking-widest text-[var(--accent)]">
+            Capabilities
+          </span>
         </div>
+        <h2 className="font-heading text-3xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)]">
+          Technical Stack & Tooling
+        </h2>
+        <p className="mt-3 text-base sm:text-lg text-[var(--text-muted)] max-w-2xl">
+          The engineering building blocks, libraries, and machine learning toolchains used to build fast, reliable products.
+        </p>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
-          {categories.map((cat, idx) => (
-            <div key={idx} className={`${cat.cardClass} p-8 flex flex-col h-full hover:scale-[1.02] transition-transform duration-200`}>
-
-              {/* Category Header (Increased text size) */}
-              <div className="flex items-center gap-3.5 mb-8">
-                <div className={cat.color}>
-                  {getCategoryIcon(idx)}
+      {/* Grouped Chips Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {skillGroups.map((group, idx) => (
+          <div 
+            key={idx}
+            className="card-studio p-6 sm:p-7 flex flex-col justify-between hover:border-[var(--accent)]/40 transition-all duration-300"
+          >
+            <div>
+              {/* Group Title & Header */}
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-lg bg-[var(--border-color)] flex items-center justify-center">
+                  {group.icon}
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold font-outfit text-slate-950">
-                  {cat.title}
-                </h3>
+                <div>
+                  <h3 className="font-heading text-lg sm:text-xl font-bold text-[var(--text-primary)]">
+                    {group.title}
+                  </h3>
+                  <p className="text-xs text-[var(--text-muted)] font-mono-code">
+                    {group.description}
+                  </p>
+                </div>
               </div>
 
-              {/* Skills badges grid (Increased text size & custom badge colors) */}
-              <div className="flex flex-wrap gap-3 mt-auto">
-                {cat.skills.length > 0 ? (
-                  cat.skills.map((skill, skillIdx) => (
-                    <span
-                      key={skillIdx}
-                      className={`rounded-2xl border-2 font-bold text-base sm:text-lg hover:scale-105 transition-transform duration-150 cursor-default ${cat.badgeClass}`}
-                    >
-                      {skill}
-                    </span>
-                  ))
-                ) : (
-                  <span className="text-base text-zinc-400 italic font-light">No skills added yet.</span>
-                )}
+              {/* Grouped Chips */}
+              <div className="flex flex-wrap gap-2 pt-5">
+                {group.skills.map((skill, sIdx) => (
+                  <span
+                    key={sIdx}
+                    className="tag-badge text-xs sm:text-sm py-1.5 px-3 hover:scale-105 active:scale-95 transition-transform cursor-default"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] opacity-70" />
+                    <span>{skill}</span>
+                  </span>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </section>
   );

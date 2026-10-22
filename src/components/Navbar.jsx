@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 
 export default function Navbar({ 
-  styleMode, 
-  accentColor, 
+  theme, 
+  toggleTheme, 
   portfolioData,
   accentHex
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  // Monitor active sections on scroll (excluding contact)
   useEffect(() => {
-    const sections = ['home', 'about', 'skills', 'projects'];
+    const sections = ['home', 'projects', 'skills', 'about', 'contact'];
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 160;
+      const scrollPosition = window.scrollY + 200;
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -32,87 +31,85 @@ export default function Navbar({
   }, []);
 
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'projects', label: 'Projects' },
+    { id: 'home', label: 'Overview' },
+    { id: 'projects', label: 'Work & Tools' },
+    { id: 'skills', label: 'Stack' },
+    { id: 'about', label: 'Approach' },
     { id: 'contact', label: 'Contact' }
   ];
 
-  // Fixed blue header style
-  const getNavClasses = () => {
-    return 'sticky top-0 z-40 bg-sky-100/95 backdrop-blur-md border-b border-sky-200 text-slate-950 transition-all duration-300';
-  };
-
-  const getLinkClasses = (itemId) => {
-    const isActive = activeSection === itemId;
-    return `px-5 py-2.5 rounded-2xl transition-all duration-300 text-md font-bold relative ${
-      isActive 
-        ? 'text-slate-950 scale-105 shadow-md shadow-sky-200' 
-        : 'text-slate-800 hover:text-slate-950 hover:bg-sky-200/70 hover:scale-105'
-    }`;
-  };
-
-  const getButtonClasses = () => {
-    return 'p-3 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white hover:scale-110 active:scale-95 duration-200';
-  };
-
   return (
-    <nav className={getNavClasses()}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 sm:h-24">
-          {/* Logo / Initials */}
-          <div className="flex-shrink-0 flex items-center">
-            <a 
-              href="#home" 
-              className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950 dark:text-slate-100 font-outfit rotate-[-2deg] hover:rotate-[2deg] transition-transform duration-200"
-            >
-            </a>
-          </div>
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-[var(--bg-primary)]/80 border-b border-[var(--border-color)] transition-colors duration-300">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
+          
+          {/* Logo / Monogram */}
+          <a 
+            href="#home" 
+            className="group flex items-center gap-2.5 font-heading text-base sm:text-lg font-bold tracking-tight text-[var(--text-primary)]"
+          >
+            <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent)] group-hover:scale-125 transition-transform duration-200" />
+            <span>P. Raja Raghava Reddy</span>
+            <span className="hidden sm:inline-block text-xs font-mono-code text-[var(--text-muted)] font-normal ml-1">
+              / AI & Design
+            </span>
+          </a>
 
           {/* Desktop Nav Items */}
-          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                className={getLinkClasses(item.id)}
-                style={
-                  activeSection === item.id 
-                    ? { backgroundColor: accentHex } 
-                    : {}
-                }
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                    isActive 
+                      ? 'text-[var(--text-primary)] bg-[var(--border-color)] font-semibold' 
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--border-color)]/50'
+                  }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+          </nav>
 
-          {/* Mobile Menu Action */}
-          <div className="md:hidden flex items-center space-x-2">
+          {/* Actions: Theme Toggle & Mobile Menu */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent)] transition-all duration-200"
+              aria-label="Toggle theme"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
+            </button>
+
+            {/* Mobile Hamburger */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={getButtonClasses()}
-              aria-label="Toggle Menu"
+              className="md:hidden p-2 rounded-full border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              aria-label="Toggle Navigation Menu"
             >
-              {isOpen ? <X size={22} /> : <Menu size={22} />}
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Drawer Menu */}
       {isOpen && (
-        <div className="md:hidden px-3 pt-2 pb-5 space-y-2 bg-white/95 border-t border-slate-200/40">
+        <div className="md:hidden px-4 pt-3 pb-6 space-y-1.5 bg-[var(--bg-surface)] border-b border-[var(--border-color)]">
           {navItems.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
               onClick={() => setIsOpen(false)}
-              className={`block px-4 py-3 text-lg font-bold rounded-2xl transition-all ${
+              className={`block px-4 py-2.5 text-sm font-medium rounded-xl transition-all ${
                 activeSection === item.id 
-                  ? 'text-slate-50 shadow-md bg-slate-900' 
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900/30 hover:text-slate-900 dark:hover:text-white'
+                  ? 'text-[var(--accent)] bg-[var(--border-color)] font-semibold' 
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--border-color)]/40'
               }`}
             >
               {item.label}
@@ -120,6 +117,6 @@ export default function Navbar({
           ))}
         </div>
       )}
-    </nav>
+    </header>
   );
 }

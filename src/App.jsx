@@ -17,30 +17,38 @@ const DEFAULT_PORTFOLIO_DATA = {
   },
   projects: [
     {
-      name: 'Prajna',
-      desc: 'A religious tourism and temple management domain associated with helping users discover temples, view cultural and historical details, and allowing admins to manage temple information through a web-based platform.',
-      tech: 'React, FastAPI, PostgreSQL, Tailwind',
-      link: 'https://prajna-frontend.onrender.com/'
+      name: 'Resume-JD Matcher',
+      problem: 'Manually checking a resume against a job description is slow, subjective, and leaves candidates guessing why they get rejected.',
+      built: 'A Gradio tool that reads PDF resumes (PyMuPDF), scores text similarity with TF-IDF, and matches skills with boundary-aware regex (Java ≠ JavaScript).',
+      output: 'A 0-100 blended score showing matched and missing skills, plus recommendations to improve the resume.',
+      desc: 'Problem: Manually checking a resume against a job description is slow, subjective, and leaves candidates guessing why they get rejected.\n\nBuilt: A Gradio tool that reads PDF resumes (PyMuPDF), scores text similarity with TF-IDF, and matches skills with boundary-aware regex (Java ≠ JavaScript).\n\nOutput: A 0-100 blended score showing matched and missing skills, plus recommendations to improve the resume.',
+      tech: 'Python, Gradio, PyMuPDF, TF-IDF, Regex',
+    },
+    {
+      name: 'Prajna (AI Temple Management Platform)',
+      problem: 'Festival rushes cause double-booked slots, long queues, and slow manual gate checks.',
+      built: 'Separate React portals for devotees and staff, on a Node/Prisma/MySQL backend with Redis locks, live slot status, and HMAC-signed QR passes.',
+      designFocus: 'Different interfaces for different users (devotee, gate staff, trustee), so each task takes fewer steps.',
+      output: 'Instant booking confirmation with a signed QR pass, real-time slot availability, and a staff dashboard for gate verification and crowd monitoring.',
+      desc: 'Problem: Festival rushes cause double-booked slots, long queues, and slow manual gate checks.\n\nBuilt: Separate React portals for devotees and staff, on a Node/Prisma/MySQL backend with Redis locks, live slot status, and HMAC-signed QR passes.\n\nDesign focus: Different interfaces for different users (devotee, gate staff, trustee), so each task takes fewer steps.\n\nOutput:Instant booking confirmation with a signed QR pass, real-time slot availability, and a staff dashboard for gate verification and crowd monitoring.',
+      tech: 'React, Node.js, Prisma, MySQL, Redis, HMAC QR',
     },
     {
       name: 'Intelligent Defect Detection',
-      desc: 'This project presents an intelligent surface crack detection system for concrete using advanced Machine Learning techniques. It includes a comprehensive pipeline for image preprocessing, data augmentation, and the implementation of Deep Convolutional Neural Networks (DCNNs). The system achieves high accuracy in identifying and classifying crack defects, providing real-time feedback to enhance structural health monitoring and maintenance efficiency.',
-      tech: 'Python, TensorFlow, Keras, Scikit-learn, OpenCV, Flask',
-      link: 'https://github.com/Raghava-git21/Intelligentdefectdetection'
-    },
-    {
-      name: 'Smart Voice Recognition System',
-      desc: 'A voice recognition system that can identify and respond to specific voice commands, built using Python and machine learning techniques.',
-      tech: 'Python, PyTorch,SpeechBrain 1.0.0 — ECAPA-TDNN speaker embeddings',
-      link: 'https://github.com/Raghava-git21/Voice-Recognition'
+      problem: 'Manual inspection is slow, inconsistent, and easy to get wrong at scale.',
+      built: 'Model [e.g. CNN/YOLO] trained on dataset to detect defect types from images.',
+      output: 'Defect location, class, and confidence shown in a simple UI or report.',
+      desc: 'Problem: Manual inspection is slow, inconsistent, and easy to get wrong at scale.\n\nBuilt: Model [e.g. CNN/YOLO] trained on dataset to detect defect types from images.\n\nOutput: Defect location, class, and confidence shown in a simple UI or report.',
+      tech: 'Python, CNN / YOLO, OpenCV, Flask, TensorFlow',
     }
   ],
   links: {
     github: 'https://github.com/Raghava-git21',
     linkedin: 'https://www.linkedin.com/in/p-raja-raghava-b6a4a6293/',
+    leetcode: 'https://leetcode.com/u/Raja_3543/',
     email: 'prajaraghava@gmail.com',
     phone: '+91 8712381577',
-    resume: 'Raghava_Resume.pdf'
+    resume: '/Raja_Raghava_Reddy_Resume.pdf'
   }
 };
 
@@ -49,86 +57,74 @@ const ACCENT_COLOR_MAP = {
 };
 
 export default function App() {
-  // Lock styleMode to playful (our colorful layout engine)
-  const styleMode = 'playful';
-  const accentColor = 'purple';
-  const accentHex = '#d946ef';
+  // Dark theme by default with light mode toggle
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('ather_theme') || 'dark';
+  });
 
-  const [portfolioData] = useState(DEFAULT_PORTFOLIO_DATA);
-
-  // Fixed application background and text palette
-  const getAppWrapperClasses = () => {
-    return 'font-outfit style-playful min-h-screen bg-[#041d4f] text-white transition-colors duration-500 pb-10';
+  const toggleTheme = () => {
+    setTheme(prev => {
+      const next = prev === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('ather_theme', next);
+      return next;
+    });
   };
 
+  const [portfolioData] = useState(DEFAULT_PORTFOLIO_DATA);
+  const accentHex = theme === 'dark' ? '#00f59b' : '#059669';
+
   return (
-    <div
-      className={getAppWrapperClasses()}
-      style={{
-        '--accent-color': accentHex,
-        '--accent-light': `${accentHex}1a`
-      }}
-    >
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        :root {
-          --accent-primary: ${accentHex};
-          --accent-secondary: #c084fc;
-          --scroll-bg: #f3e8ff;
-        }
-        .text-accent { color: ${accentHex} !important; }
-        .bg-accent { background-color: ${accentHex} !important; }
-        .border-accent { border-color: ${accentHex} !important; }
-      `}} />
+    <div className={`${theme} min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300 font-body relative overflow-x-hidden`}>
+      {/* Subtle industrial grid overlay */}
+      <div className="fixed inset-0 bg-grid-pattern pointer-events-none opacity-40 z-0" />
 
       {/* Navigation */}
       <Navbar
-        styleMode={styleMode}
-        accentColor={accentColor}
+        theme={theme}
+        toggleTheme={toggleTheme}
         portfolioData={portfolioData}
         accentHex={accentHex}
       />
 
       {/* Main content grid */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 sm:space-y-32 py-10">
         <Hero
-          styleMode={styleMode}
-          accentColor={accentColor}
-          portfolioData={portfolioData}
-          accentHex={accentHex}
-        />
-        <About
-          styleMode={styleMode}
-          accentColor={accentColor}
-          portfolioData={portfolioData}
-          accentHex={accentHex}
-        />
-        <Skills
-          styleMode={styleMode}
-          accentColor={accentColor}
+          theme={theme}
           portfolioData={portfolioData}
           accentHex={accentHex}
         />
         <Projects
-          styleMode={styleMode}
-          accentColor={accentColor}
+          theme={theme}
+          portfolioData={portfolioData}
+          accentHex={accentHex}
+        />
+        <Skills
+          theme={theme}
+          portfolioData={portfolioData}
+          accentHex={accentHex}
+        />
+        <About
+          theme={theme}
           portfolioData={portfolioData}
           accentHex={accentHex}
         />
         <Contact
-          styleMode={styleMode}
-          accentColor={accentColor}
+          theme={theme}
           portfolioData={portfolioData}
           accentHex={accentHex}
         />
       </main>
 
       {/* Footer */}
-      <footer className="py-10 border-t border-dashed border-purple-300/30 text-center text-sm font-medium">
-        <p>© {new Date().getFullYear()} {portfolioData.name}. All rights reserved.</p>
-        <p className="mt-1 text-slate-500 text-xs">
-          Built with React & Tailwind CSS. Designed in a clean, modern aesthetic.
-        </p>
+      <footer className="relative z-10 py-12 border-t border-[var(--border-color)] text-center text-xs text-[var(--text-muted)]">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>© {new Date().getFullYear()} {portfolioData.name}. All rights reserved.</p>
+          <p className="flex items-center gap-2">
+            <span>Designed with precision</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+            <span>AI & Industrial Design Engineering</span>
+          </p>
+        </div>
       </footer>
     </div>
   );
